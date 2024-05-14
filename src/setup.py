@@ -68,6 +68,7 @@ setup(
     extras_require={
         'pgsql': 'psycopg2',
         'mysql': 'mysql',
+        'redis': 'redis'
     },
 
     entry_points={
