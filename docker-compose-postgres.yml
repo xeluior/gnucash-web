@@ -9,6 +9,10 @@ services:
       POSTGRES_PASSWORD: 'example'
     volumes:
       - db-data:/var/lib/postgresql/data
+
+  cache:
+    image: redis:7.2.4-alpine
+
   app:
     image: ghcr.io/joshuabach/gnucash-web:main
     environment:
