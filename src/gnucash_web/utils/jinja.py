@@ -93,12 +93,7 @@ def account_url(account, *args, **kwargs):
     return Markup(
         url_for(
             "book.show_account",
-            account_name="/".join(
-                quote_plus(account.name)
-                for account in islice(
-                    parent_accounts(account), 1, None
-                )  # Skip root account
-            ),
+            account_id=account.guid,
             *args,
             **kwargs,
         )

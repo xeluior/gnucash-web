@@ -50,10 +50,10 @@ def handle_database_locked(e: DatabaseLocked):
     return body, e.code
 
 
-@bp.route("/accounts/<path:account_name>")
-@bp.route("/accounts/", defaults={"account_name": ""})
+@bp.route("/accounts/<account_id>")
+@bp.route("/accounts/")
 @requires_auth
-def show_account(account_name):
+def show_account(account_id = None):
     """Show the given account, including all subaccounts and transactions.
 
     If the account has subaccounts, a collapsible tree view of them is rendered.
@@ -68,7 +68,6 @@ def show_account(account_name):
 
     """
     try:
-        account_name = ":".join(unquote_plus(name) for name in account_name.split("/"))
         page = int(request.args.get('page', 1))
     except ValueError as e:
         raise BadRequest(f'Invalid query parameter: {e}') from e
@@ -82,8 +81,8 @@ def show_account(account_name):
         readonly=True,
     ) as book:
         account = (
-            get_account(book, fullname=account_name)
-            if account_name
+            get_account(book, guid=account_id)
+            if account_id
             else book.root_account
         )
 
