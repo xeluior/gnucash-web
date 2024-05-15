@@ -1,8 +1,6 @@
 FROM python:3.11-alpine AS builder
 LABEL authors="freddo"
 
-WORKDIR /srv/
-
 RUN apk add \
       gcc \
       musl-dev \
@@ -18,11 +16,9 @@ WORKDIR /srv/
 
 COPY ./src/ ./
 COPY ./README.md ./
-COPY --from=builder /wheels /wheels
 
 RUN apk add libpq  mariadb-client
-RUN pip install -v --no-cache /wheels/* .[pgsql,mysql,redis] gunicorn
-RUN rm -r /wheels
+RUN --mount=type=bind,target=/wheels,from=builder,source=/wheels pip install -v --no-cache /wheels/* .[pgsql,mysql,redis] gunicorn
 
 EXPOSE 8000
 
