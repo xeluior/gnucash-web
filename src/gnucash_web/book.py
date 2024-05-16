@@ -278,12 +278,12 @@ def del_transaction():
 
         return redirect(account_url(account))
 
-@bp.route("/edit_account", methods=["POST"])
+@bp.route("/accounts/<guid>", methods=["POST"])
 @requires_auth
-def edit_account():
+def edit_account(guid):
     """Edit an existing account.
 
-    All parameters are read from `request.form`.
+    All parameters are read from `request.form` except for guid.
 
     :param guid: GUID of the account to edit
     :param name: New name for the account
@@ -297,7 +297,6 @@ def edit_account():
     :param hidden: The hidden state of the account
     """
     try:
-        guid = request.form["guid"]
         name = request.form["name"]
         code = request.form["code"]
         description = request.form["description"]

@@ -133,8 +133,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
           <div class="modal-body">
-            <form id="edit_account" method="post" action="{{ url_for('book.edit_account') }}">
-              <input type="hidden" name="guid" value="{{ account.guid }}">
+            <form id="edit_account" method="post" action="{{ url_for('book.edit_account', guid=account.guid) }}">
               <div class="mb-2">
                 <label for="new_account_name" class="form-label text-body-secondary small">Account Name</label>
                 <input type="text" class="form-control"
@@ -164,26 +163,9 @@
                           selected
                         {% endif %}
                       >
-                        {{ p_account.fullname }}
+                        {{ account_type }}
                       </option>
-                      {% if p_account.children %}
-                        {{ loop(p_account.children) }}
-                      {% endif %}
                     {% endif %}
-                  {% endfor %}
-                </select>
-              </div>
-              <div class="mb-2">
-                <label for="new_account_type" class="form-label text-body-secondary small">Account Type</label>
-                <select name="type" id="new_account_type" class="form-select">
-                  {% for account_type in account_types %}
-                    <option value="{{ account_type }}"
-                      {% if account_type == account.type %}
-                        selected
-                      {% endif %}
-                    >
-                      {{ account_type }}
-                    </option>
                   {% endfor %}
                 </select>
               </div>
